@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> E06-Bonilla </title>  
+  <meta charset="UTF-8">
+
+  <style>
+    body {
+        color: black;
+        background-color: teal; 
+    }
+    footer{
+        color:white
+    }
+  </style>
+</head>
+
+<body onload="doStartClock()">
+
+    <div id="group1">
+        <p id="timePar" style="font-size: 10em;font-family: 'Courier New'
+        ,'Courier New', Courier, monospace;text-align: center;">00:00:00</p>
+
+        <div id = "temp" style="font-size: 10em;font-family: 'Courier New'
+        ,'Courier New', Courier, monospace;text-align: center;">
+
+            <button id="decrement" style="height: 50px; width: 50px;">-1</button>
+            <span id="counter">40 F</span>
+            <button id="increment" style="height: 50px; width: 50px;">+1</button>
+
+        </div>
+
+        <div>
+            <img class="trans" id="pic" src="none" alt="" style="width:1500px; height:600px">
+        </div>
+    </div>
+
+    <div id="buttons">
+        <input type=button onclick="powerButton()" id="power" value="On" 
+        style="color:black;background-color: green; border: none; padding: 15px 32px;
+        text-align: center; text-decoration: none; display: inline-block; font-size: 16px;">
+        <input type=button onclick="contents()" id="contents" value="Open fridge" style="border: none;
+        color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+        font-size: 16px;">
+        <input type=button onclick="browser()" id="browser" value="Open browser" style="border: none;
+        color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+        font-size: 16px;">
+        <input type=button onclick="tv()" id="tv" value="Open Netflix" style="border: none;
+        color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+        font-size: 16px;">
+        <input type=button onclick="calendar()" id="calendar" value="Open calendar" style="border: none;
+        color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+        font-size: 16px;">
+    </div>
+
+    <script>
+        //Code to change color and text in power button, as well as turning off all other buttons
+        function powerButton(){
+            var pBut=document.getElementById("power");
+            if(pBut.value=="On"){
+                pBut.value="Off";
+                document.getElementById("contents").style.visibility="hidden";
+                document.getElementById("browser").style.visibility="hidden";
+                document.getElementById("tv").style.visibility="hidden";
+                document.getElementById("calendar").style.visibility="hidden";
+                document.getElementById("group1").style.visibility="hidden";
+                document.body.style.backgroundColor="black";
+                changeColorOff();
+            }
+            else{
+                pBut.value="On";
+                document.getElementById("contents").style.visibility="visible";
+                document.getElementById("browser").style.visibility="visible";
+                document.getElementById("tv").style.visibility="visible";
+                document.getElementById("calendar").style.visibility="visible";
+                document.getElementById("group1").style.visibility="visible";
+                document.body.style.backgroundColor="teal";
+                changeColorOn();
+            }
+        }
+        function changeColorOff(){
+            var pBut=document.getElementById("power");
+            pBut.style.backgroundColor="red";
+        }
+        function changeColorOn(){
+            var pBut=document.getElementById("power");
+            pBut.style.backgroundColor="green";
+        }
+    
+        //Code for clock
+        function doStartClock(){
+            setInterval(doClockTick,1000);
+        }
+    
+        function doClockTick(){
+            var currentDate = new Date();
+            var hours = currentDate.getHours();
+            var mins = currentDate.getMinutes();
+            var secs = currentDate.getSeconds();
+            var timeString = hours+":"+mins+":"+secs;
+    
+            var outputElement = document.getElementById("timePar");
+            outputElement.textContent=timeString;
+        }
+    
+        //code for temperature increment/decrement
+        var counterEl = document.getElementById("counter");
+        var incrementBtn = document.getElementById("increment");
+        var decrementBtn = document.getElementById("decrement");
+    
+        var count = 40;
+    
+        incrementBtn.addEventListener("click", () => {
+            count++;
+            counterEl.innerText = count + ' F';
+        });
+    
+        decrementBtn.addEventListener("click", () => {
+            count--;
+            counterEl.innerText = count+ ' F';
+        });
+    
+        //code for opening fridge
+        function contents(){
+            var conBut = document.getElementById("contents");
+            var bBut = document.getElementById("browser");
+            var tBut = document.getElementById("tv");
+            var cBut = document.getElementById("calendar");
+            if(conBut.value=="Open fridge"){
+                openFridge();
+                conBut.value="Close fridge";
+                bBut.value="Open browser";
+                tBut.value="Open Netflix";
+                cBut.value="Open calendar";
+            }
+            else{
+                closeFridge();
+                conBut.value="Open fridge";
+            }
+        }
+    
+        function openFridge(){
+            var pic = document.getElementById("pic");
+            pic.src="https://aptokash.github.io/SD330/06-fridge.jpg";
+        }
+        function closeFridge(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+    
+        //code for opening browser
+        function browser(){
+            var conBut = document.getElementById("contents");
+            var bBut = document.getElementById("browser");
+            var tBut = document.getElementById("tv");
+            var cBut = document.getElementById("calendar");
+            if(bBut.value=="Open browser"){
+                openBrowser();
+                bBut.value="Close browser";
+                conBut.value="Open fridge";
+                tBut.value="Open Netflix";
+                cBut.value="Open calendar";
+            }
+            else{
+                closeBrowser();
+    
+                bBut.value="Open browser";
+            }
+        }
+    
+        function openBrowser(){
+            var pic = document.getElementById("pic");
+            pic.src="https://aptokash.github.io/SD330/06-web.jpg";
+        }
+        function closeBrowser(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+    
+        //code for opening netflix
+        function tv(){
+            var conBut = document.getElementById("contents");
+            var bBut = document.getElementById("browser");
+            var tBut = document.getElementById("tv");
+            var cBut = document.getElementById("calendar");
+            if(tBut.value=="Open Netflix"){
+                openNetflix();
+                tBut.value="Close Netflix";
+                conBut.value="Open fridge";
+                bBut.value="Open browser";
+                cBut.value="Open calendar";
+            }
+            else{
+                closeNetflix();
+                tBut.value="Open Netflix";
+            }
+        }
+    
+        function openNetflix(){
+            var pic = document.getElementById("pic");
+            pic.src="https://aptokash.github.io/SD330/06-tv.jpg";
+        }
+        function closeNetflix(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+    
+        //code for opening calendar
+        function calendar(){
+            var conBut = document.getElementById("contents");
+            var bBut = document.getElementById("browser");
+            var tBut = document.getElementById("tv");
+            var cBut = document.getElementById("calendar");
+            if(cBut.value=="Open calendar"){
+                openCalendar();
+                cBut.value="Close calendar";
+                conBut.value="Open fridge";
+                bBut.value="Open browser";
+                tBut.value="Open Netflix";
+            }
+            else{
+                closeCalendar();
+                cBut.value="Open calendar";
+            }
+        }
+    
+        function openCalendar(){
+            var pic = document.getElementById("pic");
+            pic.src="https://www.wiki-calendar.com/wp-content/uploads/2022/09/March-2023-Calendar-390x250.jpg";
+        }
+        function closeCalendar(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+    
+    </script>
+
+    <footer style="color:white">
+        <hr>
+        <small> &copy; A. Bonilla, March 10,2023  </small>
+    </footer> 
+</body>
+
+</html>
