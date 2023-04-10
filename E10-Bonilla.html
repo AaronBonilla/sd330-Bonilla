@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> E10-Bonilla </title>  
+  <meta charset="UTF-8">
+
+  <style>
+    body {
+        color: black;
+        background-color: teal; 
+    }
+    footer{
+        color:white
+    }
+  </style>
+</head>
+
+<body onload="doStartClock()">
+
+    <div id="container">
+        <div id="group1">
+            <div id="time_container" style="font-size: 10em;font-family: 'Courier New'
+            ,'Courier New', Courier, monospace;text-align: center;">
+            </div>
+    
+            <div id = "temp" style="font-size: 10em;font-family: 'Courier New'
+            ,'Courier New', Courier, monospace;text-align: center;">
+    
+                <button id="decrement" style="height: 50px; width: 50px;">-1</button>
+                <span id="counter">40 F</span>
+                <button id="increment" style="height: 50px; width: 50px;">+1</button>
+    
+            </div>
+    
+            <div>
+                <img class="trans" id="pic" src="none" alt="" style="width:1500px; height:600px">
+            </div>
+    
+            <div id="timerDiv"style="font-size: 10em;font-family: 'Courier New'
+            ,'Courier New', Courier, monospace;text-align: center;">
+            <span id="theTimer"> 01:00 </span>
+            </div>
+
+            <div id="listDiv"style="font-size: 2em;font-family: 'Courier New'
+            ,'Courier New', Courier, monospace;text-align: center;">
+            <span id="theList"> 
+                <ul>
+                    <li>Eggs</li>
+                    <li>Milk</li>
+                    <li>Bread</li>
+                    <li>Cereal</li>
+                    <li>Bacon</li>
+                </ul>
+                <label>Next item:</label>
+                <input type="text" id="newList" name="Next item" size=25>
+                <input type=button onclick="submit()" id="submit" value="Submit">
+            </span>
+            </div>
+        </div>
+    
+        <div id="buttons">
+            <input type=button onclick="powerButton()" id="power" value="On" 
+            style="color:black;background-color: green; border: none; padding: 15px 32px;
+            text-align: center; text-decoration: none; display: inline-block; font-size: 16px;">
+            <input type=button onclick="contents()" id="contents" value="Open fridge" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+            <input type=button onclick="browser()" id="browser" value="Open browser" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+            <input type=button onclick="tv()" id="tv" value="Open Netflix" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+            <input type=button onclick="calendar()" id="calendar" value="Open calendar" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+            <input type=button onclick="weather()" id="weather" value="Open weather" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+            <input type=button onclick="music()" id="music" value="Play music" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+            <input type=button onclick="timer()" id="timer" value="Start timer" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+            <input type=button id="toggle_button" value="Switch time format" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+            <input type=button id="toggle_temp" onclick="temp()" value="Switch temp format" style="border: none;
+            color: black; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;
+            font-size: 16px;">
+        </div>
+    </div>
+
+    <script>
+        //Code to change color and text in power button, as well as turning off all other buttons
+        function powerButton(){
+            var pBut=document.getElementById("power");
+            if(pBut.value=="On"){
+                pBut.value="Off";
+                document.getElementById("contents").style.visibility="hidden";
+                document.getElementById("browser").style.visibility="hidden";
+                document.getElementById("tv").style.visibility="hidden";
+                document.getElementById("calendar").style.visibility="hidden";
+                document.getElementById("weather").style.visibility="hidden";
+                document.getElementById("music").style.visibility="hidden";
+                document.getElementById("timer").style.visibility="hidden";
+                document.getElementById("toggle_button").style.visibility="hidden";
+                document.getElementById("toggle_temp").style.visibility="hidden";
+                document.getElementById("group1").style.visibility="hidden";
+                document.body.style.backgroundColor="black";
+                theMusic.pause();
+                theMusic.currentTime = 0;
+                changeColorOff();
+            }
+            else{
+                pBut.value="On";
+                document.getElementById("contents").style.visibility="visible";
+                document.getElementById("browser").style.visibility="visible";
+                document.getElementById("tv").style.visibility="visible";
+                document.getElementById("calendar").style.visibility="visible";
+                document.getElementById("weather").style.visibility="visible";
+                document.getElementById("music").style.visibility="visible";
+                document.getElementById("timer").style.visibility="visible";
+                document.getElementById("toggle_button").style.visibility="visible";
+                document.getElementById("toggle_temp").style.visibility="visible";
+                document.getElementById("group1").style.visibility="visible";
+                document.body.style.backgroundColor="teal";
+                changeColorOn();
+            }
+        }
+        function changeColorOff(){
+            var pBut=document.getElementById("power");
+            pBut.style.backgroundColor="red";
+        }
+        function changeColorOn(){
+            var pBut=document.getElementById("power");
+            pBut.style.backgroundColor="green";
+        }
+    
+        //Code for clock
+        var time = getTime();
+        var container = document.getElementById('time_container');
+        var toggleButton = document.getElementById('toggle_button');
+
+        //    Set initial time
+        container.innerHTML = time.st;
+
+        //    Set click event handler
+        toggleButton.addEventListener('click', toggleTime, false);
+
+
+
+        function toggleTime() {
+            if (container.innerHTML == time.mil) {
+                container.innerHTML = time.st;   
+            }
+            else {
+                container.innerHTML = time.mil;   
+            }
+        }
+
+        function getTime() {
+            //    Get the 24 hour format time
+            var D = new Date();
+            var h = D.getHours();
+            var m = D.getMinutes();
+            var s = D.getSeconds();
+            
+            var tmobj = {
+                mil: leadingZero(h) + ':' + leadingZero(m) + ':' + leadingZero(s)
+            }
+            
+            //    Get 12 hour format time
+            if (h > 12) {
+                //    Subtract twelve hours and set AM/PM to PM
+                tmobj.st = leadingZero(h - 12) + ':' + leadingZero(m) + ':' + leadingZero(s) + ' PM';
+            }
+            else {
+                //    Don't change the hours and set AM/PM to AM
+                tmobj.st = tmobj.mil + ' AM';
+            }
+            
+            return tmobj;
+        }
+
+        function leadingZero(digit) {
+            // if digit has only one place, add a leading zero
+            if (digit < 10) {
+                return '0' + digit;   
+            }
+            else {
+                return digit;
+            }
+        }
+    
+        //code for temperature increment/decrement
+        var counterEl = document.getElementById("counter");
+        var incrementBtn = document.getElementById("increment");
+        var decrementBtn = document.getElementById("decrement");
+    
+        var count = 40;
+        var whichTemp = "F";
+
+        function temp(){
+            if(whichTemp=="F"){
+                whichTemp="C";
+                count = ((count-32)*(5/9));
+                count = Math.round(count);
+            }
+            else{
+                whichTemp="F";
+                count = (count+(9/5))+32;
+                count = Math.round(count);
+            }
+        } 
+    
+        incrementBtn.addEventListener("click", () => {
+            count++;
+            if(whichTemp=="F"){
+                counterEl.innerText = count + ' F';
+            }
+            else{
+                counterEl.innerText = count + ' C';
+            }
+        });
+    
+        decrementBtn.addEventListener("click", () => {
+            count--;
+            if(whichTemp=="F"){
+                counterEl.innerText = count + ' F';
+            }
+            else{
+                counterEl.innerText = count + ' C';
+            }
+        });
+    
+        //code for opening fridge
+        var conBut = document.getElementById("contents");
+        var bBut = document.getElementById("browser");
+        var tBut = document.getElementById("tv");
+        var cBut = document.getElementById("calendar");
+        var wBut = document.getElementById("weather");
+        var mBut = document.getElementById("music");
+        var tiBut = document.getElementById("timer");
+        function contents(){
+            if(conBut.value=="Open fridge"){
+                openFridge();
+                conBut.value="Close fridge";
+                bBut.value="Open browser";
+                tBut.value="Open Netflix";
+                cBut.value="Open calendar";
+                wBut.value="Open weather";
+                tiBut.value="Start timer";
+            }
+            else{
+                closeFridge();
+                conBut.value="Open fridge";
+            }
+        }
+    
+        function openFridge(){
+            var pic = document.getElementById("pic");
+            pic.src="https://AaronBonilla.github.io/sd330-Bonilla/insideFridge.jpg";
+        }
+        function closeFridge(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+    
+        //code for opening browser
+        function browser(){
+            if(bBut.value=="Open browser"){
+                openBrowser();
+                bBut.value="Close browser";
+                conBut.value="Open fridge";
+                tBut.value="Open Netflix";
+                cBut.value="Open calendar";
+                wBut.value="Open weather";
+                tiBut.value="Start timer";
+            }
+            else{
+                closeBrowser();
+    
+                bBut.value="Open browser";
+            }
+        }
+    
+        function openBrowser(){
+            var pic = document.getElementById("pic");
+            pic.src="https://AaronBonilla.github.io/sd330-Bonilla/browser.png";
+        }
+        function closeBrowser(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+    
+        //code for opening netflix
+        function tv(){
+            if(tBut.value=="Open Netflix"){
+                openNetflix();
+                tBut.value="Close Netflix";
+                conBut.value="Open fridge";
+                bBut.value="Open browser";
+                cBut.value="Open calendar";
+                wBut.value="Open weather";
+                tiBut.value="Start timer";
+            }
+            else{
+                closeNetflix();
+                tBut.value="Open Netflix";
+            }
+        }
+    
+        function openNetflix(){
+            var pic = document.getElementById("pic");
+            pic.src="https://aaronbonilla.github.io/sd330-Bonilla/netflixHome.png";
+            var audio = new Audio('https://aaronbonilla.github.io/sd330-Bonilla/netflixSound.mp3');
+            audio.play();
+        }
+        function closeNetflix(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+    
+        //code for opening calendar
+        function calendar(){
+            if(cBut.value=="Open calendar"){
+                openCalendar();
+                cBut.value="Close calendar";
+                conBut.value="Open fridge";
+                bBut.value="Open browser";
+                tBut.value="Open Netflix";
+                wBut.value="Open weather";
+                tiBut.value="Start timer";
+            }
+            else{
+                closeCalendar();
+                cBut.value="Open calendar";
+            }
+        }
+    
+        function openCalendar(){
+            var pic = document.getElementById("pic");
+            pic.src="https://aaronbonilla.github.io/sd330-Bonilla/calendar.jpg";
+        }
+        function closeCalendar(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+
+        //code for opening weather
+        function weather(){
+            if(wBut.value=="Open weather"){
+                openWeather()
+                wBut.value="Close weather"
+                cBut.value="Open calendar";
+                conBut.value="Open fridge";
+                bBut.value="Open browser";
+                tBut.value="Open Netflix";
+                tiBut.value="Start timer";
+            }
+            else{
+                closeWeather();
+                cBut.value="Open weather";
+            }
+        }
+    
+        function openWeather(){
+            var pic = document.getElementById("pic");
+            pic.src="https://aaronbonilla.github.io/sd330-Bonilla/weather.png";
+        }
+        function closeWeather(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+        }
+
+        //code for playing music
+        function music(){
+            if(mBut.value=="Play music"){
+                playMusic();
+                mBut.value="Stop music";
+                cBut.value="Open calendar";
+                conBut.value="Open fridge";
+                bBut.value="Open browser";
+                tBut.value="Open Netflix";
+                wBut.value="Open weather";
+                tiBut.value="Start timer";
+            }
+            else{
+                stopMusic();
+                mBut.value="Play music";
+            }
+        }
+    
+        var theMusic = new Audio('https://aaronbonilla.github.io/sd330-Bonilla/music.mp3');
+        function playMusic(){
+            var pic = document.getElementById("pic");
+            pic.src="https://aaronbonilla.github.io/sd330-Bonilla/musicNote.png";
+            theMusic.play();
+        }
+        function stopMusic(){
+            var pic = document.getElementById("pic");
+            pic.src="";
+            theMusic.pause();
+            theMusic.currentTime = 0;
+        }
+
+        //code for timer
+        function timer(){
+            if(tiBut.value=="Start timer"){
+                tiBut.value="Quit Timer";
+                cBut.value="Open calendar";
+                conBut.value="Open fridge";
+                bBut.value="Open browser";
+                tBut.value="Open Netflix";
+                wBut.value="Open weather";
+                startTimer();
+            }
+            else{
+                //quitTimer();
+                tiBut.value="Start timer";
+            }
+        }
+    
+        var theAlarm = new Audio('https://aaronbonilla.github.io/sd330-Bonilla/alarm.mp3');
+        function startTimer(){
+            var timer = 60; // 60 seconds
+            var display = document.getElementById("theTimer");
+            display.innerHTML = "01:00"; // initial display
+
+            var interval = setInterval(function() {
+                timer--;
+                var minutes = Math.floor(timer / 60);
+                var seconds = timer % 60;
+                var displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+                var displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+                display.innerHTML = "<p>"+displayMinutes + ":" + displaySeconds;
+
+                if (timer == 0) {
+                    theAlarm.play();
+                    tiBut.value = "Start timer"
+                    clearInterval(interval);
+                }
+            }, 1000); // update every second
+
+            var stopButton = document.getElementById("timer");
+            stopButton.addEventListener("click", function() {
+                clearInterval(interval);
+                timer = 60;
+                display.innerHTML = "01:00";
+            });
+
+            pic.src="";
+        }
+
+        function submit(){
+            var list = document.getElementById("theList");
+            var htmlString = '<ul><li>Eggs</li><li>Milk</li><li>Bread</li><li>Cereal</li><li>Bacon</li>';
+            var item = document.getElementById("newList").value;
+            htmlString += '<li>' + item + '</li></ul>';
+            list.innerHTML = htmlString;
+        }
+    
+    </script>
+
+    <footer style="color:white">
+        <hr>
+        <small> &copy; A. Bonilla, April 9th,2023  </small>
+    </footer> 
+</body>
+
+</html>
