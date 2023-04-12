@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> index </title>  
+  <meta charset="UTF-8">
+  <style>
+    body { 
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url("https://aaronbonilla.github.io/sd330-Bonilla/marist.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <h1>Aaron Bonilla's CMPT-330 GitHub Repository File List</h1>
+    <h4>Click on a hyperlink to view the file's code</h4>
+    <img src="https://aaronbonilla.github.io/sd330-Bonilla/bone2.jpg" alt="Avatar image">
+    <ul id="content-list"></ul>
+  </div>
+
+  <script>
+    const username = "AaronBonilla";
+    const repository = "sd330-Bonilla";
+    const apiUrl = `https://api.github.com/repos/${username}/${repository}/contents`;
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        const contentList = document.getElementById("content-list");
+        data.forEach(item => {
+          const listItem = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = item.html_url;
+          link.target = "_blank";
+          link.textContent = item.name;
+          listItem.appendChild(link);
+          contentList.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error(error));
+  </script>
+
+  <footer style="color:black">
+    <hr>
+    <small> &copy; A. Bonilla, April 12th,2023  </small>
+  </footer> 
+</body>
+</html>
