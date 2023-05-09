@@ -1,0 +1,61 @@
+{
+    "courses": {
+        "CMPT330":{
+            "name": "System Design",
+            "section": "111",
+            "semester": "Spring 2023",
+            "professor": "Andrew Tokash"
+        },
+        "DATA220":{
+            "name": "Intro to Data Analysis",
+            "section": "112",
+            "semester": "Spring 2023",
+            "professor": "Duy Nguyen"
+        },
+        "CMPT416":{
+            "name": "Intro to Cybersecurity",
+            "section": "111",
+            "semester": "Spring 2023",
+            "professor": "Dominick Foti"
+        },
+        "CMPT446":{
+            "name": "Computer Graphics",
+            "section": "111",
+            "semester": "Spring 2023",
+            "professor": "William Joel"
+        }
+    },
+
+    "books": {
+        "Interaction Design":{
+            "isbn": "9781119547259",
+            "title": "Interaction Design",
+            "author": "Helen Sharp, Yvonne Rogers, and Jennifer Preece",
+            "courseID": "CMPT330"
+        },
+        "Introductory Statistics with R":{
+            "isbn": "9780387790534",
+            "title": "Introductory Statistics with R",
+            "author": "Peter Dalgaard",
+            "courseID": "DATA220"
+        },
+        "Security+ Study Guide":{
+            "isbn": "9781119736257",
+            "title": "Security+ Study Guide",
+            "author": "Mike Chapple and David Seidl",
+            "courseID": "CMPT416"
+        },
+        "OpenGL Programming Guide":{
+            "isbn": "9780134495491",
+            "title": "OpenGL Programming Guide",
+            "author": "John Kessenich, Graham Sellers, and Dave Shreiner",
+            "courseID": "CMPT446"
+        },
+        "Learning Base R":{
+            "isbn": "9780982917480",
+            "title": "Learning Base R",
+            "author": "Lawrence Leemis",
+            "courseID": "DATA220"
+        }
+    }
+}

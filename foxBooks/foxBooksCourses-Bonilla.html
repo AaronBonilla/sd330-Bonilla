@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="foxBooksCss.css"> 
+  <title> foxBooksCourses-Bonilla </title>  
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <div id="div1">
+    <ul>
+      <li><a href="foxBooksHome-Bonilla.html"><button class="button-1">Home</button></a></li>
+      <li><a href="foxBooksCourses-Bonilla.html"><button class="button-1">Courses</button></a></li>
+      <li><a><button class="button-1">Cart</button></a></li>
+      <li><input type="text" placeholder="Search.."></li>
+      <nav class="crumbs">
+        <ol>
+          <li class="crumb"><a href="foxBooksCourses-Bonilla.html">Courses</a></li>
+          <li class="crumb"><a href="foxBooksHome-Bonilla.html">Home</a></li>
+        </ol>
+      </nav>
+    </ul>
+  </div>
+
+  <div id="div2">
+    <h1>Current Courses</h1>
+    <div id="info"></div>
+  </div>
+
+  <p><a href="foxBooksBooks-Bonilla.html"><button style="margin-top: 50px;" class="button-1">Books</button></a></p>
+
+  <script>
+    const fetchData = async () => {
+      const response = await fetch("https://aaronbonilla.github.io/sd330-Bonilla/foxBooks.json");
+      const data = await response.json();
+
+      var info = document.getElementById("info");
+      var output = '';
+
+      var courses = Object.values(data.courses); // Convert courses object to an array
+
+      // Iterate through each course
+      for (var i = 0; i < courses.length; i += 2) {
+        output += '<div class="course-container">';
+
+        // Check if the current course and the next course exist
+        if (courses[i]) {
+          output += '<div class="course">';
+          output += "<h2>" + courses[i].name + "</h2>";
+          output += "<p><strong>Section:</strong> " + courses[i].section + "</p>";
+          output += "<p><strong>Semester:</strong> " + courses[i].semester + "</p>";
+          output += "<p><strong>Professor:</strong> " + courses[i].professor + "</p>";
+          output += '</div>';
+        }
+
+        // Check if the next course exists
+        if (courses[i + 1]) {
+          output += '<div class="course">';
+          output += "<h2>" + courses[i + 1].name + "</h2>";
+          output += "<p><strong>Section:</strong> " + courses[i + 1].section + "</p>";
+          output += "<p><strong>Semester:</strong> " + courses[i + 1].semester + "</p>";
+          output += "<p><strong>Professor:</strong> " + courses[i + 1].professor + "</p>";
+          output += '</div>';
+        }
+        output += '</div>';
+      }
+
+      // Display the generated output in the 'info' element
+      info.innerHTML = output;
+    }
+
+    fetchData();
+  </script>
+
+  <footer>
+    <small> &copy; A. Bonilla, May 9th, 2023  </small>
+  </footer> 
+</body>
+</html>
